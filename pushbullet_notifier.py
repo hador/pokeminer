@@ -1,5 +1,5 @@
 from db import pokemon_names
-from Notifier import Notifier
+from notifier import Notifier
 from pushbullet import Pushbullet
 import config
 
