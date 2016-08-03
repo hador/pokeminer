@@ -18,6 +18,13 @@ import config
 import db
 import utils
 
+Notifier = None
+
+if hasattr(config, 'NOTIFY') and config.NOTIFY == True:
+    from pydoc import locate
+    Notifier_class = locate(config.NOTIFY_PROVIDER)
+    Notifier = Notifier_class()
+
 
 # Check whether config has all necessary attributes
 REQUIRED_SETTINGS = (
@@ -200,6 +207,10 @@ class Slave(threading.Thread):
                 db.add_sighting(session, raw_pokemon)
                 self.seen_per_cycle += 1
                 self.total_seen += 1
+                if hasattr(config, 'NOTIFY') and config.NOTIFY == True and raw_pokemon['pokemon_id'] in config.NOTIFY_IDS:
+                    Notifier.notify(raw_pokemon)
+                    logger.info(str(raw_pokemon['pokemon_id']) + " notified.")
+            logger.info('Point processed, %d Pokemons seen!', len(pokemons))
             session.commit()
             for raw_fort in forts:
                 db.add_fort_sighting(session, raw_fort)
