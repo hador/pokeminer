@@ -1,4 +1,4 @@
-from db import pokemon_names
+from names import POKEMON_NAMES
 from notifier import Notifier
 from pushbullet import Pushbullet
 import config
@@ -12,7 +12,7 @@ class PushbulletNotifier(Notifier):
         self.pb = Pushbullet(config.PB_API_KEY)
 
     def do_notify(self, pokemon):
-        name = pokemon_names[str(pokemon['pokemon_id'])]
+        name = POKEMON_NAMES[pokemon['pokemon_id']]
         coords = str(pokemon['lat']) + "," + str(pokemon['lon'])
         expire_time = pokemon['expire_timestamp']
         if self.pb != None:
