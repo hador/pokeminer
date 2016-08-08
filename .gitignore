@@ -1,6 +1,7 @@
 *.pyc
 .idea
 config.py
+accept-tos.py
 db.sqlite
 *.log
 templates/footer.html
